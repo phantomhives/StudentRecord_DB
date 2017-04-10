@@ -5,6 +5,12 @@
  */
 package GUI;
 
+import BLL.StudentBLL;
+import DAO.Student;
+import java.util.Iterator;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author shusa
@@ -13,9 +19,12 @@ public class StudentGUI extends javax.swing.JFrame {
 
     /**
      * Creates new form StudentGUI
-     */
+    **/
+    private StudentBLL studentBLL;
     public StudentGUI() {
         initComponents();
+        this.studentBLL = new StudentBLL();
+        generateStudentRecord();
     }
 
     /**
@@ -45,7 +54,7 @@ public class StudentGUI extends javax.swing.JFrame {
         saveButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        ShowStudentRecordTableTextBox = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,6 +75,11 @@ public class StudentGUI extends javax.swing.JFrame {
         jLabel7.setText("Country");
 
         saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,18 +97,18 @@ public class StudentGUI extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(studentMaritalTextBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                    .addComponent(studentMaritalTextBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
                     .addComponent(studentProgramTextBox, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(studentAddressTextBox, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(studentDobTextBox, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(studentLastNameTextBox, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(studentFirstNameTextBox, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(studentCountryTextBox))
+                    .addComponent(studentCountryTextBox)
+                    .addComponent(studentFirstNameTextBox, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(saveButton)
-                .addGap(20, 20, 20))
+                .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,7 +148,8 @@ public class StudentGUI extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("ShowAllRecord"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        ShowStudentRecordTableTextBox.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        ShowStudentRecordTableTextBox.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -145,7 +160,7 @@ public class StudentGUI extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(ShowStudentRecordTableTextBox);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -153,7 +168,7 @@ public class StudentGUI extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -170,9 +185,9 @@ public class StudentGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -180,13 +195,17 @@ public class StudentGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_saveButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,6 +243,7 @@ public class StudentGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable ShowStudentRecordTableTextBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -234,7 +254,6 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton saveButton;
     private javax.swing.JTextField studentAddressTextBox;
     private javax.swing.JTextField studentCountryTextBox;
@@ -244,4 +263,30 @@ public class StudentGUI extends javax.swing.JFrame {
     private javax.swing.JTextField studentMaritalTextBox;
     private javax.swing.JTextField studentProgramTextBox;
     // End of variables declaration//GEN-END:variables
+
+    private void generateStudentRecord() {
+       
+         try {
+            String[] columnNames = {"ID","FIRST NAME","LAST NAME","DATE OF BIRTH","PROGRAM",
+            "ADDRESS","MARITAL STATUS","COUNTRY"};
+            DefaultTableModel model= new DefaultTableModel();
+            ShowStudentRecordTableTextBox.setEnabled(false);
+            model.fireTableDataChanged();
+            model.setColumnIdentifiers(columnNames);
+            
+            ShowStudentRecordTableTextBox.setModel(model);
+            Iterator<Student> iterator = this.studentBLL.getAllStudent().iterator();
+            while (iterator.hasNext()) {
+                Student astudent = iterator.next();
+                model.addRow(new Object[]{astudent.getStudent_id(),astudent.getStudent_firstname(),
+                    astudent.getStudent_lastname(),astudent.getStudent_dob(),astudent.getStudent_program(),
+                astudent.getStudent_address(),astudent.getStudent_maritalstatus(),
+                astudent.getStudent_country()});    
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+        
+    }
 }
+

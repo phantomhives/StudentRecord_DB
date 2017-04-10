@@ -24,4 +24,14 @@ public class StudentBLL {
      public ArrayList<Student> getAllStudent(){
          return  studentDLL.getAllStudent();
      }
+     
+    public String saveStudent(Student aStudent){
+     
+        if(this.studentDLL.saveStudent(aStudent)){
+            return "Student save done";
+        }
+        return "Something wrong";
+    }
+    
+    
 }

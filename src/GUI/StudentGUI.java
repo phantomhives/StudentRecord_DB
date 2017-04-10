@@ -74,6 +74,12 @@ public class StudentGUI extends javax.swing.JFrame {
 
         jLabel7.setText("Country");
 
+        studentDobTextBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentDobTextBoxActionPerformed(evt);
+            }
+        });
+
         saveButton.setText("Save");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,7 +211,23 @@ public class StudentGUI extends javax.swing.JFrame {
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
+        String firstName = studentFirstNameTextBox.getText();
+        String lastName = studentLastNameTextBox.getText();
+        String dob = studentDobTextBox.getText();
+        String program = studentProgramTextBox.getText();
+        String address = studentAddressTextBox.getText();
+        String maritalStatus = studentMaritalTextBox.getText();
+        String country = studentCountryTextBox.getText();
+        
+       Student aStudent = new Student(WIDTH, firstName, lastName,
+               dob, program, address, maritalStatus, country);
+        JOptionPane.showMessageDialog(rootPane, this.studentBLL.saveStudent(aStudent));
+        generateStudentRecord();
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void studentDobTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentDobTextBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_studentDobTextBoxActionPerformed
 
     /**
      * @param args the command line arguments

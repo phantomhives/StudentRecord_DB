@@ -14,14 +14,14 @@ public class Student {
     private int student_id;
     private String student_firstname;
     private String student_lastname;
-    private int student_dob;
+    private String student_dob;
     private String student_program;
     private String student_address;
     private String student_maritalstatus;
     private String student_country;
 
     public Student(int student_id, String student_firstname, String student_lastname,
-            int student_dob, String student_program, String student_address,
+            String student_dob, String student_program, String student_address,
             String student_maritalstatus, String student_country) {
         this.student_id = student_id;
         this.student_firstname = student_firstname;
@@ -60,11 +60,11 @@ public class Student {
         this.student_lastname = student_lastname;
     }
 
-    public int getStudent_dob() {
+    public String getStudent_dob() {
         return student_dob;
     }
 
-    public void setStudent_dob(int student_dob) {
+    public void setStudent_dob(String student_dob) {
         this.student_dob = student_dob;
     }
 
